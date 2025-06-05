@@ -16,14 +16,14 @@ class Course:
     modules_count: int
 
 
-def soup_parser(tag:str, url:str|None = None ):
+def soup_parser(tag: str, url: str | None = None) -> list:
     home_url = urljoin(BASE_URL, url)
     text = requests.get(home_url).content
     soup = BeautifulSoup(text, "html.parser")
     return soup.select(tag)
 
 
-def validate_data(data):
+def validate_data(data: Tag) -> str:
     if data:
         return data.text
     return "Not found any information"
@@ -33,7 +33,7 @@ def parse_single_course(course: Tag) -> Course:
     url = course.get("href")
 
     topics_count_list = soup_parser(
-        tag= ".FactBlockIcon_indigo__yH9KL > .FactBlockIcon_factNumber__FTmxv", #".FactBlockIcon_factNumber__FTmxv",
+        tag=".FactBlockIcon_indigo__yH9KL > .FactBlockIcon_factNumber__FTmxv",
         url=url
     )
     topics_count = int(topics_count_list[0].text)
